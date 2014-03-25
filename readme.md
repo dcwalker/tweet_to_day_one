@@ -1,3 +1,5 @@
+Tweet to Day One is a script for creating new Day One entries from Tweets using the [Day One command line interface](https://dayone.zendesk.com/hc/en-us/articles/200258954-Day-One-Tools).
+
 ## Example configuration
 
 The file should be named `config.yaml` and should go in the same directory as `tweet_to_day_one`.

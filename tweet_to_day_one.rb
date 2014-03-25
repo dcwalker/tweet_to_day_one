@@ -61,6 +61,29 @@ def parse_tweet(tweet)
       }
     end
 
+    # Try to find images hosted outside Twitter to download
+    if image_path.nil?
+      tweet.urls.each do |url|
+        uri = URI.parse(url.expanded_url)
+        if uri.host == "d.pr"
+          uri.scheme = "https"
+          munged_url = "#{uri}+"
+        else
+          munged_url = uri
+        end
+
+        open(munged_url){ |contents|
+          if contents.content_type.include?("image")
+            image_path = "/tmp/#{tweet.id}"
+            File.open(image_path,"wb") do |file|
+              file.puts contents.read
+            end
+          end
+        }
+        break unless image_path.nil?
+      end
+    end
+
     puts markdown_tweet
     puts add_markdown_to_day_one(markdown_tweet, tweet.created_at, image_path) if @options.day_one
     File.delete(image_path) unless image_path.nil?
