@@ -68,6 +68,10 @@ def parse_tweet(tweet)
         if uri.host == "d.pr"
           uri.scheme = "https"
           munged_url = "#{uri}+"
+        elsif uri.host == "cl.ly"
+          munged_url = "#{uri}/download"
+        elsif uri.host == "instagram.com"
+          munged_url = "#{URI.join(uri, 'media/?size=l')}"
         else
           munged_url = uri
         end
