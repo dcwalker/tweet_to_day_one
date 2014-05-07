@@ -76,14 +76,18 @@ def parse_tweet(tweet)
           munged_url = uri
         end
 
-        open(munged_url){ |contents|
-          if contents.content_type.include?("image")
-            image_path = "/tmp/#{tweet.id}"
-            File.open(image_path,"wb") do |file|
-              file.puts contents.read
+        begin
+          open(munged_url){ |contents|
+            if contents.content_type.include?("image")
+              image_path = "/tmp/#{tweet.id}"
+              File.open(image_path,"wb") do |file|
+                file.puts contents.read
+              end
             end
-          end
-        }
+          }
+        rescue
+          # if it doesn't work... meh.
+        end
         break unless image_path.nil?
       end
     end
