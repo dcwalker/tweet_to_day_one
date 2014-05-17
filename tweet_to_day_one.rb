@@ -72,6 +72,8 @@ def parse_tweet(tweet)
           munged_url = "#{uri}/download"
         elsif uri.host == "instagram.com"
           munged_url = "#{URI.join(uri, 'media/?size=l')}"
+        elsif uri.host == "img.ly"
+          munged_url = "http://img.ly/show/full#{uri.path}"
         else
           munged_url = uri
         end
